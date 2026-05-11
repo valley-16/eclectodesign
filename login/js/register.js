@@ -5,7 +5,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    const res = await fetch("https://herisusanta.my.id/javalogin/api/auth.php", {
+    const res = await fetch("https://valley-16.github.io/eclectodesign/login/login.html", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
