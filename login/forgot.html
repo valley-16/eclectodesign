@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Forgot Password - Breezed</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Raleway', sans-serif; min-height: 100vh; }
+
+        /* HEADER */
+        .header-area {
+            background: transparent;
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 100; transition: all 0.3s ease; padding: 20px 0;
+        }
+        .header-area.scrolled {
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding: 12px 0;
+        }
+        .main-nav { display: flex; align-items: center; justify-content: space-between; }
+        .logo {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800; font-size: 22px;
+            color: #fff; text-decoration: none;
+            letter-spacing: 2px; transition: color 0.3s;
+        }
+        .header-area.scrolled .logo { color: #1a1a2e; }
+        .nav-links { list-style: none; display: flex; align-items: center; gap: 30px; margin: 0; }
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600; font-size: 13px;
+            color: #fff; text-decoration: none;
+            letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s;
+        }
+        .header-area.scrolled .nav-links a { color: #555; }
+        .nav-links a:hover, .nav-links a.active { color: #f5a623; }
+        .header-area.scrolled .nav-links a:hover { color: #f5a623; }
+
+        /* HERO */
+        .login-hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #533483 100%);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        .login-hero::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px; border-radius: 50%;
+            background: rgba(245, 166, 35, 0.06);
+            top: -200px; right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+        .login-hero::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px; border-radius: 50%;
+            background: rgba(83, 52, 131, 0.15);
+            bottom: -100px; left: -100px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50%       { transform: translateY(-30px) scale(1.05); }
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                -45deg, transparent, transparent 80px,
+                rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 82px
+            );
+        }
+
+        /* WRAPPER */
+        .login-wrapper {
+            position: relative; z-index: 2;
+            width: 100%; max-width: 460px; padding: 20px;
+            animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BRAND */
+        .brand-logo { text-align: center; margin-bottom: 28px; }
+        .brand-logo span {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800; font-size: 28px;
+            color: #fff; letter-spacing: 4px; text-transform: uppercase;
+        }
+        .brand-logo p {
+            color: rgba(255,255,255,0.45);
+            font-size: 12px; letter-spacing: 2px;
+            margin-top: 5px; font-weight: 400;
+        }
+
+        /* CARD */
+        .login-card {
+            background: #fff; border-radius: 3px;
+            padding: 45px 40px; box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        }
+
+        /* Icon lingkaran di tengah */
+        .icon-circle {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: rgba(245,166,35,0.12);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .icon-circle i { font-size: 28px; color: #f5a623; }
+
+        .login-card h4 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700; font-size: 22px;
+            color: #1a1a2e; margin-bottom: 4px;
+            letter-spacing: 1px; text-align: center;
+        }
+        .login-card .subtitle {
+            color: #aaa; font-size: 13px;
+            font-weight: 400; margin-bottom: 14px;
+            text-align: center; line-height: 1.6;
+        }
+        .title-accent {
+            width: 40px; height: 3px;
+            background: #f5a623;
+            margin: 0 auto 28px;
+        }
+
+        /* STEPS indicator */
+        .steps {
+            display: flex; align-items: center;
+            justify-content: center; gap: 0;
+            margin-bottom: 28px;
+        }
+        .step {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+        }
+        .step-circle {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700;
+            color: #ccc; transition: all 0.3s;
+        }
+        .step.active .step-circle {
+            background: #f5a623; border-color: #f5a623; color: #fff;
+        }
+        .step.done .step-circle {
+            background: #27ae60; border-color: #27ae60; color: #fff;
+        }
+        .step-label {
+            font-size: 10px; font-weight: 600;
+            letter-spacing: 1px; color: #ccc;
+            text-transform: uppercase;
+        }
+        .step.active .step-label { color: #f5a623; }
+        .step.done .step-label   { color: #27ae60; }
+        .step-line {
+            width: 50px; height: 2px;
+            background: #e0e0e0; margin: 0 8px; margin-bottom: 22px;
+            transition: background 0.3s;
+        }
+        .step-line.done { background: #27ae60; }
+
+        /* FORM */
+        .form-group label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700; font-size: 11px;
+            color: #333; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 8px; display: block;
+        }
+        .form-control {
+            border: 1px solid #e5e5e5; border-radius: 2px;
+            padding: 12px 15px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px; font-weight: 500; color: #1a1a2e;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fafafa; height: auto; width: 100%; display: block;
+        }
+        .form-control:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+            background: #fff; outline: none;
+        }
+        .form-control::placeholder { color: #ccc; font-weight: 400; }
+
+        /* OTP input */
+        .otp-group {
+            display: flex; gap: 10px; justify-content: center;
+            margin-bottom: 10px;
+        }
+        .otp-input {
+            width: 50px; height: 55px;
+            text-align: center; font-size: 22px;
+            font-weight: 700; font-family: 'Raleway', sans-serif;
+            border: 2px solid #e5e5e5; border-radius: 2px;
+            background: #fafafa; color: #1a1a2e;
+            transition: border-color 0.3s;
+        }
+        .otp-input:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+            outline: none;
+        }
+
+        /* Password wrapper */
+        .password-wrapper { position: relative; }
+        .password-wrapper .form-control { padding-right: 45px; }
+        .toggle-password {
+            position: absolute; right: 13px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none;
+            color: #ccc; cursor: pointer; font-size: 14px; padding: 0;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover { color: #f5a623; }
+
+        /* TOMBOL */
+        .btn-login {
+            background: #f5a623; border: 2px solid #f5a623;
+            border-radius: 2px; color: #fff;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700; font-size: 13px;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 14px 30px; width: 100%;
+            transition: all 0.3s ease; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-login:hover { background: transparent; color: #f5a623; }
+        .btn-login i { font-size: 14px; transition: transform 0.3s; }
+        .btn-login:hover i { transform: translateX(5px); }
+
+        .btn-back {
+            background: transparent; border: 2px solid #e0e0e0;
+            border-radius: 2px; color: #aaa;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700; font-size: 12px;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 12px 20px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s; margin-bottom: 12px;
+        }
+        .btn-back:hover { border-color: #f5a623; color: #f5a623; }
+
+        /* Info box */
+        .info-box {
+            background: #fffbf0; border: 1px solid #fde8b0;
+            border-radius: 2px; padding: 12px 15px;
+            font-size: 12px; color: #856404;
+            margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start;
+        }
+        .info-box i { margin-top: 1px; color: #f5a623; flex-shrink: 0; }
+
+        /* Resend */
+        .resend-text {
+            text-align: center; font-size: 12px;
+            color: #aaa; margin-top: 15px;
+        }
+        .resend-text a {
+            color: #f5a623; font-weight: 700;
+            text-decoration: none; cursor: pointer;
+        }
+        .resend-text a:hover { opacity: 0.7; }
+
+        /* Success screen */
+        .success-screen {
+            text-align: center; display: none;
+        }
+        .success-icon {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: rgba(39,174,96,0.1);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            animation: popIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .success-icon i { font-size: 36px; color: #27ae60; }
+        .success-screen h5 {
+            font-weight: 700; font-size: 18px;
+            color: #1a1a2e; margin-bottom: 8px; letter-spacing: 1px;
+        }
+        .success-screen p {
+            font-size: 13px; color: #aaa;
+            line-height: 1.6; margin-bottom: 25px;
+        }
+
+        /* Login link */
+        .register-link {
+            text-align: center; margin-top: 22px;
+            font-size: 13px; color: #888; font-weight: 500;
+        }
+        .register-link a {
+            color: #f5a623; font-weight: 700;
+            text-decoration: none; letter-spacing: 0.5px; transition: opacity 0.2s;
+        }
+        .register-link a:hover { opacity: 0.7; }
+
+        /* FOOTER */
+        .login-footer {
+            text-align: center; margin-top: 22px;
+            color: rgba(255,255,255,0.35);
+            font-size: 12px; font-weight: 400; letter-spacing: 0.5px;
+        }
+
+        /* Panel tampilan per step */
+        .step-panel { display: none; }
+        .step-panel.active { display: block; }
+
+        @media (max-width: 576px) {
+            .login-card { padding: 30px 22px; }
+            .nav-links  { display: none; }
+            .otp-input  { width: 42px; height: 48px; font-size: 18px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header-area" id="mainHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="../index.html" class="logo">.BREEZED</a>
+                        <ul class="nav-links">
+                            <li><a href="../index.html">Home</a></li>
+                            <li><a href="../index.html#about">About</a></li>
+                            <li><a href="../index.html#projects">Projects</a></li>
+                            <li><a href="../index.html#contact-us">Contact Us</a></li>
+                            <li><a href="login.html">Login</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="login-hero">
+        <div class="hero-overlay"></div>
+
+        <div class="login-wrapper">
+
+            <div class="brand-logo">
+                <span>.BREEZED</span>
+                <p>Reset password kamu</p>
+            </div>
+
+            <div class="login-card">
+
+                <!-- Icon -->
+                <div class="icon-circle">
+                    <i class="fa fa-lock" id="headerIcon"></i>
+                </div>
+
+                <h4 id="cardTitle">Forgot Password</h4>
+                <p class="subtitle" id="cardSubtitle">Masukkan email kamu dan kami akan mengirimkan kode verifikasi</p>
+                <div class="title-accent"></div>
+
+                <!-- Step indicator -->
+                <div class="steps">
+                    <div class="step active" id="step1Ind">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Email</div>
+                    </div>
+                    <div class="step-line" id="line1"></div>
+                    <div class="step" id="step2Ind">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Kode OTP</div>
+                    </div>
+                    <div class="step-line" id="line2"></div>
+                    <div class="step" id="step3Ind">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Password Baru</div>
+                    </div>
+                </div>
+
+                <!-- STEP 1: Email -->
+                <div class="step-panel active" id="panel1">
+                    <form id="emailForm">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="form-control" id="emailInput"
+                                   placeholder="contoh@email.com" required>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn-login">
+                                Kirim Kode OTP <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="register-link">
+                        Ingat password? <a href="login.html">Login di sini</a>
+                    </div>
+                </div>
+
+                <!-- STEP 2: OTP -->
+                <div class="step-panel" id="panel2">
+                    <div class="info-box">
+                        <i class="fa fa-info-circle"></i>
+                        <span>Kode OTP telah dikirim ke <strong id="emailDisplay"></strong>. Cek inbox atau folder spam kamu.</span>
+                    </div>
+                    <form id="otpForm">
+                        <div class="form-group">
+                            <label style="text-align:center; display:block;">Masukkan Kode OTP</label>
+                            <div class="otp-group">
+                                <input type="text" class="otp-input" maxlength="1" id="o1">
+                                <input type="text" class="otp-input" maxlength="1" id="o2">
+                                <input type="text" class="otp-input" maxlength="1" id="o3">
+                                <input type="text" class="otp-input" maxlength="1" id="o4">
+                                <input type="text" class="otp-input" maxlength="1" id="o5">
+                                <input type="text" class="otp-input" maxlength="1" id="o6">
+                            </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn-login">
+                                Verifikasi <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="resend-text">
+                        Tidak menerima kode? <a onclick="resendOTP()">Kirim ulang</a>
+                        &nbsp;|&nbsp; <a onclick="goStep(1)">Ganti email</a>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Password Baru -->
+                <div class="step-panel" id="panel3">
+                    <form id="resetForm">
+                        <div class="form-group">
+                            <label>Password Baru</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="newPassword"
+                                       placeholder="Minimal 8 karakter" required>
+                                <button type="button" class="toggle-password" onclick="togglePass('newPassword','eyeNew')">
+                                    <i class="fa fa-eye" id="eyeNew"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Konfirmasi Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" class="form-control" id="confirmNewPassword"
+                                       placeholder="Ulangi password baru" required>
+                                <button type="button" class="toggle-password" onclick="togglePass('confirmNewPassword','eyeConf')">
+                                    <i class="fa fa-eye" id="eyeConf"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn-login">
+                                Reset Password <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- SUCCESS -->
+                <div class="success-screen" id="successScreen">
+                    <div class="success-icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <h5>Password Berhasil Direset!</h5>
+                    <p>Password kamu telah berhasil diperbarui.<br>Silakan login dengan password baru kamu.</p>
+                    <button class="btn-login" onclick="window.location.href='login.html'">
+                        Ke Halaman Login <i class="fa fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="login-footer">
+                Copyright &copy; 2024 &mdash; Breezed Co., Ltd.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        // Header sticky
+        window.addEventListener('scroll', function() {
+            document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Toggle password
+        function togglePass(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon  = document.getElementById(iconId);
+            input.type  = input.type === 'password' ? 'text' : 'password';
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        }
+
+        // Navigasi antar step
+        function goStep(step) {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel' + step).classList.add('active');
+
+            const titles = ['', 'Forgot Password', 'Verifikasi OTP', 'Password Baru'];
+            const subs   = [
+                '',
+                'Masukkan email kamu dan kami akan mengirimkan kode verifikasi',
+                'Masukkan 6 digit kode yang dikirim ke email kamu',
+                'Buat password baru yang kuat untuk akunmu'
+            ];
+            document.getElementById('cardTitle').textContent    = titles[step];
+            document.getElementById('cardSubtitle').textContent = subs[step];
+
+            // Update step indicator
+            for (let i = 1; i <= 3; i++) {
+                const ind = document.getElementById('step' + i + 'Ind');
+                ind.classList.remove('active', 'done');
+                if (i < step)  ind.classList.add('done');
+                if (i === step) ind.classList.add('active');
+            }
+            if (step > 1) document.getElementById('line1').classList.add('done');
+            else           document.getElementById('line1').classList.remove('done');
+            if (step > 2) document.getElementById('line2').classList.add('done');
+            else           document.getElementById('line2').classList.remove('done');
+        }
+
+        // Step 1: kirim email
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email) return;
+            document.getElementById('emailDisplay').textContent = email;
+            goStep(2);
+            document.getElementById('o1').focus();
+        });
+
+        // OTP auto-tab
+        document.querySelectorAll('.otp-input').forEach((input, idx, arr) => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+                if (this.value && idx < arr.length - 1) arr[idx + 1].focus();
+            });
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value && idx > 0) arr[idx - 1].focus();
+            });
+        });
+
+        // Step 2: verifikasi OTP
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const otp = ['o1','o2','o3','o4','o5','o6'].map(id => document.getElementById(id).value).join('');
+            if (otp.length < 6) {
+                alert('Masukkan 6 digit kode OTP');
+                return;
+            }
+            goStep(3);
+        });
+
+        // Resend OTP
+        function resendOTP() {
+            ['o1','o2','o3','o4','o5','o6'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('o1').focus();
+            alert('Kode OTP baru telah dikirim!');
+        }
+
+        // Step 3: reset password
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const np = document.getElementById('newPassword').value;
+            const cp = document.getElementById('confirmNewPassword').value;
+            if (np.length < 8) { alert('Password minimal 8 karakter'); return; }
+            if (np !== cp)      { alert('Konfirmasi password tidak cocok'); return; }
+
+            // Tampilkan success
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.querySelector('.steps').style.display       = 'none';
+            document.querySelector('.title-accent').style.display = 'none';
+            document.getElementById('cardTitle').textContent     = '';
+            document.getElementById('cardSubtitle').textContent  = '';
+            document.getElementById('headerIcon').className      = 'fa fa-check';
+            document.querySelector('.icon-circle').style.background = 'rgba(39,174,96,0.1)';
+            document.querySelector('.icon-circle i').style.color    = '#27ae60';
+            document.getElementById('successScreen').style.display  = 'block';
+        });
+    </script>
+</body>
+</html>
