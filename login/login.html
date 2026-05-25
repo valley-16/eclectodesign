@@ -466,13 +466,10 @@
                 alertEl.style.display = 'block';
             } else {
                 alertEl.style.display = 'none';
+                sessionStorage.setItem('isLoggedIn', 'true');
                 window.location.href = '../index.html';
             }
-            } else {
-                    alertEl.style.display = 'none';
-                    sessionStorage.setItem('isLoggedIn', 'true'); // ← tambah ini
-                    window.location.href = '../index.html';
-          }
+            
         });
     </script>
 </body>
