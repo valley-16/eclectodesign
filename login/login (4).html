@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login - Breezed</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header-area {
+            background: transparent;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            padding: 20px 0;
+        }
+        .header-area.scrolled {
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            padding: 12px 0;
+        }
+        .main-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+        }
+        .header-area.scrolled .logo { color: #1a1a2e; }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin: 0;
+        }
+        .nav-links a {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .header-area.scrolled .nav-links a { color: #555; }
+        .nav-links a:hover, .nav-links a.active { color: #f5a623; }
+        .header-area.scrolled .nav-links a:hover { color: #f5a623; }
+
+        /* ===== HERO ===== */
+        .login-hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 70%, #533483 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-hero::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            background: rgba(245, 166, 35, 0.06);
+            top: -200px; right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+        .login-hero::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(83, 52, 131, 0.15);
+            bottom: -100px; left: -100px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50%       { transform: translateY(-30px) scale(1.05); }
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                -45deg, transparent, transparent 80px,
+                rgba(255,255,255,0.015) 80px, rgba(255,255,255,0.015) 82px
+            );
+        }
+
+        /* ===== WRAPPER ===== */
+        .login-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 460px;
+            padding: 20px;
+            animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== BRAND ===== */
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .brand-logo span {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 800;
+            font-size: 28px;
+            color: #fff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .brand-logo p {
+            color: rgba(255,255,255,0.45);
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        /* ===== CARD ===== */
+        .login-card {
+            background: #fff;
+            border-radius: 3px;
+            padding: 45px 40px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+        }
+        .login-card h4 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+        .login-card .subtitle {
+            color: #aaa;
+            font-size: 13px;
+            font-weight: 400;
+            margin-bottom: 14px;
+        }
+        .title-accent {
+            width: 40px; height: 3px;
+            background: #f5a623;
+            margin-bottom: 28px;
+        }
+
+        /* ===== FORM ===== */
+        .form-group label {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: #333;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .form-group label a {
+            float: right;
+            color: #f5a623;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 11px;
+            text-transform: none;
+            letter-spacing: 0;
+            transition: opacity 0.2s;
+        }
+        .form-group label a:hover { opacity: 0.7; }
+
+        .form-control {
+            border: 1px solid #e5e5e5;
+            border-radius: 2px;
+            padding: 12px 15px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a2e;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #fafafa;
+            height: auto;
+            width: 100%;
+            display: block;
+        }
+        .form-control:focus {
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+            background: #fff;
+            outline: none;
+        }
+        .form-control::placeholder { color: #ccc; font-weight: 400; }
+
+        .password-wrapper { position: relative; }
+        .password-wrapper .form-control { padding-right: 45px; }
+        .toggle-password {
+            position: absolute;
+            right: 13px; top: 50%;
+            transform: translateY(-50%);
+            background: none; border: none;
+            color: #ccc; cursor: pointer;
+            font-size: 14px; padding: 0;
+            transition: color 0.2s;
+        }
+        .toggle-password:hover { color: #f5a623; }
+
+        .custom-control-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+        }
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: #f5a623;
+            border-color: #f5a623;
+        }
+
+        /* ===== TOMBOL ===== */
+        .btn-login {
+            background: #f5a623;
+            border: 2px solid #f5a623;
+            border-radius: 2px;
+            color: #fff;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 14px 30px;
+            width: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-login:hover { background: transparent; color: #f5a623; }
+        .btn-login i { font-size: 14px; transition: transform 0.3s; }
+        .btn-login:hover i { transform: translateX(5px); }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            display: flex; align-items: center; gap: 15px;
+            margin: 25px 0;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: #eee;
+        }
+        .divider span {
+            font-size: 11px; color: #bbb;
+            font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* ===== SOCIAL ===== */
+        .social-login { display: flex; gap: 12px; }
+        .btn-social {
+            flex: 1; padding: 11px;
+            border: 1px solid #e5e5e5;
+            border-radius: 2px; background: #fff;
+            font-family: 'Raleway', sans-serif;
+            font-size: 12px; font-weight: 600;
+            color: #555; cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .btn-social:hover { border-color: #f5a623; color: #f5a623; }
+        .btn-social .fa { font-size: 15px; }
+        .fa-facebook { color: #3b5998; }
+        .fa-google   { color: #dd4b39; }
+        .btn-social:hover .fa-facebook,
+        .btn-social:hover .fa-google { color: #f5a623; }
+
+        /* ===== REGISTER ===== */
+        .register-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13px; color: #888; font-weight: 500;
+        }
+        .register-link a {
+            color: #f5a623; font-weight: 700;
+            text-decoration: none; letter-spacing: 0.5px;
+            transition: opacity 0.2s;
+        }
+        .register-link a:hover { opacity: 0.7; }
+
+        /* ===== FOOTER ===== */
+        .login-footer {
+            text-align: center; margin-top: 22px;
+            color: rgba(255,255,255,0.35);
+            font-size: 12px; font-weight: 400; letter-spacing: 0.5px;
+        }
+
+        /* ===== ALERT ===== */
+        .alert-login {
+            background: #fff5f5;
+            border: 1px solid #fcc;
+            border-radius: 2px;
+            padding: 12px 15px;
+            font-size: 13px; color: #c0392b;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 576px) {
+            .login-card { padding: 30px 22px; }
+            .nav-links  { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header-area" id="mainHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <a href="index.html" class="logo">.BREEZED</a>
+                        <ul class="nav-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.html#about">About</a></li>
+                            <li><a href="index.html#projects">Projects</a></li>
+                            <li><a href="index.html#contact-us">Contact Us</a></li>
+                            <li><a href="login.html" class="active">Login</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO + FORM -->
+    <div class="login-hero">
+        <div class="hero-overlay"></div>
+
+        <div class="login-wrapper">
+
+            <div class="brand-logo">
+                <span>.BREEZED</span>
+                <p>Welcome back</p>
+            </div>
+
+            <div class="login-card">
+                <h4>Sign In</h4>
+                <p class="subtitle">Masukkan kredensial Anda untuk melanjutkan</p>
+                <div class="title-accent"></div>
+
+                <div class="alert-login" id="alertLogin">
+                    <i class="fa fa-exclamation-circle"></i>
+                    Username atau password salah. Silakan coba lagi.
+                </div>
+
+                <form id="loginForm">
+
+                    <div class="form-group">
+                        <label for="username">Username / Email</label>
+                        <input id="username" type="text" class="form-control"
+                               name="username" placeholder="Masukkan username" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            Password
+                            <a href="forgot.html">Forgot Password?</a>
+                        </label>
+                        <div class="password-wrapper">
+                            <input id="password" type="password" class="form-control"
+                                   name="password" placeholder="Masukkan password" required>
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <i class="fa fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" name="remember" id="remember" class="custom-control-input">
+                            <label for="remember" class="custom-control-label">Remember Me</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <button type="submit" class="btn-login">
+                            Login <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </form>
+
+                <div class="divider"><span>or</span></div>
+
+                <div class="social-login">
+                    <button class="btn-social"><i class="fa fa-facebook"></i> Facebook</button>
+                    <button class="btn-social"><i class="fa fa-google"></i> Google</button>
+                </div>
+
+                <div class="register-link">
+                    Don't have an account? <a href="register.html">Create One</a>
+                </div>
+            </div>
+
+            <div class="login-footer">
+                Copyright &copy; 2024 &mdash; Breezed Co., Ltd.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        // Header sticky
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Toggle password
+        function togglePassword() {
+            const pwd  = document.getElementById('password');
+            const icon = document.getElementById('eyeIcon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                pwd.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Validasi form + redirect tanpa request ke server
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const alertEl = document.getElementById('alertLogin');
+            if (!u || !p) {
+                alertEl.style.display = 'block';
+            } else {
+                alertEl.style.display = 'none';
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>
