@@ -60,6 +60,15 @@ https://templatemo.com/tm-543-breezed
                             <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
                             <li class="scroll-to-section"><a href="#about">Tentang Kami</a></li>
                             <li class="scroll-to-section"><a href="#projects">Projek</a></li>
+                            <li id="greetingItem" style="display:none;">
+                                <span id="greetingText" style="
+                                   font-family: 'Raleway', sans-serif;
+                                   font-weight: 600;
+                                   font-size: 13px;
+                                   color: #f5a623;
+                                   letter-spacing: 1px;
+                                 "></span>
+                            </li>
                             <li><a href="login/login.html" id="loginLink">Login</a></li>
                             <li class="submenu">
                                 <a href="javascript:;">Drop Down</a>
@@ -592,19 +601,30 @@ https://templatemo.com/tm-543-breezed
       <script>
     // Cek status login, ganti tombol Login ↔ Logout
     window.addEventListener('load', function() {
-        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-        const loginLink  = document.getElementById('loginLink');
+    const isLoggedIn   = sessionStorage.getItem('isLoggedIn');
+    const username     = sessionStorage.getItem('username');
+    const loginLink    = document.getElementById('loginLink');
+    const greetingItem = document.getElementById('greetingItem');
+    const greetingText = document.getElementById('greetingText');
 
-        if (isLoggedIn) {
-            loginLink.textContent = 'Logout';
-            loginLink.href = '#';
-            loginLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                sessionStorage.removeItem('isLoggedIn');
-                window.location.reload();
-            });
-        }
-    });
+    if (isLoggedIn && username) {
+        // Tampilkan salam
+        greetingItem.style.display = 'block';
+        greetingText.innerHTML = '👤 Halo, ' + username + '!';
+
+        // Ganti Login → Logout
+        loginLink.textContent = 'Logout';
+        loginLink.href = '#';
+        loginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('username');
+            greetingItem.style.display = 'none';
+            loginLink.textContent = 'Login';
+            loginLink.href = 'login/login.html';
+        });
+    }
+});
 </script>
 
   </body>
