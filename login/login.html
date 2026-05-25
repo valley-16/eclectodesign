@@ -468,6 +468,11 @@
                 alertEl.style.display = 'none';
                 window.location.href = '../index.html';
             }
+            } else {
+                    alertEl.style.display = 'none';
+                    sessionStorage.setItem('isLoggedIn', 'true'); // ← tambah ini
+                    window.location.href = '../index.html';
+          }
         });
     </script>
 </body>
