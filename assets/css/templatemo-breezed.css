@@ -786,6 +786,8 @@ banner
   position: relative;
   display: inline-block;
   max-width: none;
+  object-fit: cover;
+  object-position: center center;
 }
 
 *,
